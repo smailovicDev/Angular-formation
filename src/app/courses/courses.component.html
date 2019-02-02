@@ -2,7 +2,7 @@
   
   <div class="row">
     <div class="col-md-12">
-      <h1>{{ myCourse }}</h1>
+      <h1>{{ myCourse.label }}</h1>
     </div>
   </div>
 
@@ -14,12 +14,22 @@
       
       <!-- table.table.table-striped>(thead>tr>th*2)+tbody>tr>td*2 -->
       <div class="row">
-        <div class="col-11">
-            <input [(ngModel)]="myCourse.label" type="text" class="form-control" placeholder="Add new course">
+        <div class="col-12">
+           <!-- <img [src]="myImage" alt=""> -->
+            <input [(ngModel)]="myCourse.label" type="text" class="form-control" placeholder="Add new course"
+            [disabled]="courses.length >= 5"
+            >
+          
+          <button class="btn btn-primary btn-block" *ngIf="!editable" (click)="addCourse()">
+            <i class="fa fa-plus"></i> New
+          </button>
+
+          <button class="btn btn-warning btn-block" *ngIf="editable" (click)="updateCourse()">
+              <i class="fa fa-refresh"></i> Update
+          </button>
+
         </div>
-        <div class="col-md-1">
-            <button class="btn btn-success" (click)="addCourse()">Add</button>
-        </div>
+        
       </div>
      
       <table class="table table-hover">
@@ -27,15 +37,55 @@
           <tr>
             <th>Id</th>
             <th>Label</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let course of courses">
-            <td>{{ course.id }}</td>
+          <tr *ngFor="let course of courses; index as i, odd as o, even as e"
+          [ngClass]="{
+            'table-light': o,
+            'table-light': e
+          }"
+          >
+            <td>
+              <button class="btn btn-sm mr-3" [ngClass]="{
+                'btn-danger': !course.active,
+                'btn-success': course.active
+              }"
+              (click)="activeCourse(course)"
+              >
+                <i class="fa fa-power-off"></i>
+              </button>
+               {{ course.id }}
+              </td>
             <td>{{ course.label }}</td>
+            <td class="text-right">
+              <button class="btn btn-sm btn-danger"
+              (click)=" DeleteCourse(i)">
+              <i class="fa fa-trash"></i></button>
+
+              <button class="btn btn-sm btn-dark ml-1"
+              (click)="editCourse(course)">
+              <i class="fa fa-pencil"></i></button>
+            </td>
           </tr>
         </tbody>
       </table>
+      
+        <div *ngIf="courses.length < 5; then yesCourses else noCourses"></div>
+
+        <ng-template #yesCourses>
+            <div class="alert alert-info">
+                Vous avez {{ courses.length }} cours 
+            </div>
+        </ng-template>
+
+        <ng-template #noCourses>
+            <div class="alert alert-warning">
+                vous pouvez pas ajouter d'autres cours !!
+            </div>
+        </ng-template>
+
       <app-content></app-content>
 
     </div>
