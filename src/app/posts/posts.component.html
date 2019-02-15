@@ -1,0 +1,53 @@
+<div class="row mt-3">
+<div class="col-md-12 text-right">
+  <button class="btn btn-success" (click)="showHidForm()"  ><i class="fa fa-plus" > </i></button>
+</div>
+</div>
+<div class="row my-3" *ngIf="showAddform" >
+  <div class="col-md-8">
+    <div class="card">
+    <form >
+        <div class="card-body">
+        <h4>New post </h4>
+        <div class="form-group">
+          <label for="title"></label>
+          <input type="text" name="title" class="form-control" id="title" [(ngModel)]="post.title"
+           aria-describedby="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+          <label for="body">Body</label>
+          <textarea name="body" class="form-control" [(ngModel)]="post.body"
+           id="body" placeholder="body" ></textarea>
+        </div>
+
+        <button type="submit" *ngIf="newElement"  (click)="savePost()"   class="btn btn-primary btn-block">Submit</button>
+        <button type="submit" *ngIf="!newElement"  (click)="updatePoste( post)"   class="btn btn-primary btn-block">Update</button>
+      </div>
+      </form>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-4" *ngFor="let post of posts" >
+      <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title | uppercase | slice:0:15 }}</h5>
+            <img [src]="'https://picsum.photos/200/300?image='+ post.id" alt="">
+            <p class="card-text">
+                {{ post.body | slice:0:90}}
+            </p>
+            <div class="row">
+            <button type="button" (click)="showUpdate(post)"  class="btn btn-warning">
+                <i class="fa fa-pencil" > </i>
+            </button>
+            <button type="button"  (click)="removePoste( post )"  class="btn btn-dark">
+                <i class="fa fa-trash" > </i>
+            </button>
+           </div>
+
+          </div>
+        </div>
+  </div>
+</div>

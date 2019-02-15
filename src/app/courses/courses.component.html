@@ -1,5 +1,22 @@
 
-  
+
+  <nav class="nav nav-pills nav-fill">
+      <a (click)="myFavorit= 'Laravel'" [class.active]="myFavorit=='Laravel'"
+       class="nav-item nav-link active" href="#">Laravel</a>
+      <a (click)="myFavorit= 'JavaEE'" [class.active]="myFavorit=='JavaEE'"
+       class="nav-item nav-link" href="#">JavaEE</a>
+      <a  (click)="myFavorit= 'Angular'" [class.active]="myFavorit=='Angular'"
+       class="nav-item nav-link" href="#">Angular</a>
+  </nav>
+  <div class="row" [ngSwitch]="myFavorit" >
+    <div class="col-md-12" *ngSwitchCase="'Laravel'" > Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo reiciendis a minus. Ipsum tempore enim reiciendis pariatur
+      voluptatem quibusdam minus, facere deleniti eaque iste quidem, aliquam, nobis a nostrum alias!</div>
+    <div class="col-md-12" *ngSwitchCase="'JavaEE'"  > Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit incidunt expedita pariatur voluptates,
+      harum quod minus, neque est cum accusantium itaque hic ea ipsam? A voluptas tempore exercitationem praesentium!</div>
+    <div class="col-md-12"  *ngSwitchCase="'Angular'"  > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit eum id nam, eos iure ut fugiat voluptate
+      similique ullam provident dignissimos in quasi tempora, hic velit! Natus, obcaecati debitis? Assumenda!</div>
+  </div>
+
   <div class="row">
     <div class="col-md-12">
       <h1>{{ myCourse.label }}</h1>
@@ -11,7 +28,7 @@
       <app-sidebar></app-sidebar>
     </div>
     <div class="col-md-9">
-      
+
       <!-- table.table.table-striped>(thead>tr>th*2)+tbody>tr>td*2 -->
       <div class="row">
         <div class="col-12">
@@ -19,7 +36,7 @@
             <input [(ngModel)]="myCourse.label" type="text" class="form-control" placeholder="Add new course"
             [disabled]="courses.length >= 5"
             >
-          
+
           <button class="btn btn-primary btn-block" *ngIf="!editable" (click)="addCourse()">
             <i class="fa fa-plus"></i> New
           </button>
@@ -29,14 +46,15 @@
           </button>
 
         </div>
-        
+
       </div>
-     
+
       <table class="table table-hover">
         <thead>
           <tr>
             <th>Id</th>
             <th>Label</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -59,6 +77,14 @@
                {{ course.id }}
               </td>
             <td>{{ course.label }}</td>
+
+              <td class="text-right">
+
+            <app-votes [like]="course.like" [deslike]="course.deslike"
+             (onChangeVotes)="updateVotes(course, $event)" ></app-votes>
+            Like:{{ course.like }} Dislike : {{ course.deslike }}
+              </td>
+
             <td class="text-right">
               <button class="btn btn-sm btn-danger"
               (click)=" DeleteCourse(i)">
@@ -71,12 +97,12 @@
           </tr>
         </tbody>
       </table>
-      
+
         <div *ngIf="courses.length < 5; then yesCourses else noCourses"></div>
 
         <ng-template #yesCourses>
             <div class="alert alert-info">
-                Vous avez {{ courses.length }} cours 
+                Vous avez {{ courses.length }} cours
             </div>
         </ng-template>
 
@@ -90,7 +116,7 @@
 
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-md-12">
       <app-footer></app-footer>

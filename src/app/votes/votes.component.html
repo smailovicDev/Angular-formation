@@ -1,0 +1,6 @@
+<button [ngClass]="{'btn-dark': like == 0, 'btn-primary':like > 0 }"
+    (click)="addlike()"  class="btn btn-sm ">
+<i class="fa fa-thumbs-up" aria-hidden="true"></i> {{ like}}  </button>
+<button  [ngClass]="{'btn-dark': deslike == 0, 'btn-danger': deslike > 0 }"
+(click)="addDeslike()" class="btn btn-sm ml-1" >
+    <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{ deslike}}</button>
